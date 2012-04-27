@@ -112,7 +112,7 @@ public class Main {
 	/*
 	 * p(Xkl | Xij , dir)
 	 */	
-	private void update(int dir){
+	private void updateDistrib(int dir){
 		for(int i = 0; i < mapp.length; i++)
 			for(int j = 0; j < mapp.length; j++)
 				distOld[i][j]= dist[i][j];
@@ -155,6 +155,9 @@ public class Main {
 			trans[i][1][1]=rotateMatrixRight(trans[i-1][1][1]);
 			trans[i][1][0]=rotateMatrixRight(trans[i-1][1][0]);
 		}
+		dist = new double[mapp.length][mapp[0].length];
+		distOld = new double[mapp.length][mapp[0].length];
+		dist[1][1]=1;
 		new Win(createRandomMap(80, 60));
 	}
 	
@@ -172,7 +175,7 @@ public class Main {
 	    return ret;
 	}
 
-	static class Win extends JFrame implements KeyListener {
+	class Win extends JFrame implements KeyListener {
 		private static final long serialVersionUID = -5125368081992354692L;
 		
 		class Pnl extends JPanel {
@@ -242,16 +245,16 @@ public class Main {
 		    int keyCode = e.getKeyCode();
 		    switch(keyCode) { 
 		        case KeyEvent.VK_UP:
-				    JOptionPane.showMessageDialog(this, "UP");
+		        	updateDistrib(U);
 		            break;
 		        case KeyEvent.VK_DOWN:
-				    JOptionPane.showMessageDialog(this, "DOWN");
+		        	updateDistrib(D);
 		            break;
 		        case KeyEvent.VK_LEFT:
-				    JOptionPane.showMessageDialog(this, "LEFT");
+		        	updateDistrib(L);
 		            break;
 		        case KeyEvent.VK_RIGHT :
-				    JOptionPane.showMessageDialog(this, "RIGHT");
+		        	updateDistrib(R);
 		            break;
 		     }
 		}
