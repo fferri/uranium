@@ -35,36 +35,36 @@ public class Main {
 
 	private static final double matrix[][] = 
 	{
-		{0   ,0   ,0   ,0   ,0   },
-		{0   ,0.10,0   ,0   ,0   },
-		{0   ,0.80,0   ,0   ,0   },
-		{0   ,0.10,0   ,0   ,0   },
-		{0   ,0   ,0   ,0   ,0   }
+		{0.00, 0.00, 0.00, 0.00, 0.00},
+		{0.00, 0.10, 0.00, 0.00, 0.00},
+		{0.00, 0.80, 0.00, 0.00, 0.00},
+		{0.00, 0.10, 0.00, 0.00, 0.00},
+		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 	
 	private static final double matrixOil[][] = 
 	{
-		{0   ,0   ,0   ,0   ,0   },
-		{0.15,0.10,0   ,0   ,0   },
-		{0.20,0.30,0   ,0   ,0   },
-		{0.15,0.10,0   ,0   ,0   },
-		{0   ,0   ,0   ,0   ,0   }
+		{0.00, 0.00, 0.00, 0.00, 0.00},
+		{0.15, 0.10, 0.00, 0.00, 0.00},
+		{0.20, 0.30, 0.00, 0.00, 0.00},
+		{0.15, 0.10, 0.00, 0.00, 0.00},
+		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 	
 	private static final double matrixOilOcc[][] = {
-		{0   ,0   ,0   ,0   ,0   },
-		{0   ,0   ,0.3 ,0   ,0   },
-		{0   ,0   ,0.4 ,0   ,0   },
-		{0   ,0   ,0.3 ,0   ,0   },
-		{0   ,0   ,0   ,0   ,0   }
+		{0.00, 0.00, 0.00, 0.00, 0.00},
+		{0.00, 0.00, 0.30, 0.00, 0.00},
+		{0.00, 0.00, 0.40, 0.00, 0.00},
+		{0.00, 0.00, 0.30, 0.00, 0.00},
+		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 
 	private static final double matrixOcc[][] = {
-		{0   ,0   ,0   ,0   ,0   },
-		{0   ,0   ,0.1 ,0   ,0   },
-		{0   ,0   ,0.8 ,0   ,0   },
-		{0   ,0   ,0.1 ,0   ,0   },
-		{0   ,0   ,0   ,0   ,0   }
+		{0.00, 0.00, 0.00, 0.00, 0.00},
+		{0.00, 0.00, 0.10, 0.00, 0.00},
+		{0.00, 0.00, 0.80, 0.00, 0.00},
+		{0.00, 0.00, 0.10, 0.00, 0.00},
+		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 
 	private double dist[][];
@@ -108,8 +108,8 @@ public class Main {
 	}
 	
 	private boolean isOcc(int i, int j, int dir){
-		if(checkBounds(i + dx[dir], j + dy[dir]))
-			return mapp[i + dx[dir]][j + dy[dir]] == 1;
+		if(checkBounds(i + dy[dir], j + dx[dir]))
+			return mapp[i + dy[dir]][j + dx[dir]] == 1;
 		else
 			return true;
 	}
@@ -120,11 +120,11 @@ public class Main {
 	
 	private void updateDistrib(int dir){
 		for(int i = 0; i < mapp.length; i++)
-			for(int j = 0; j < mapp.length; j++)
+			for(int j = 0; j < mapp[0].length; j++)
 				distOld[i][j] = dist[i][j];
 		
 		for(int k = 0; k < mapp.length; k++)
-			for(int l = 0; l < mapp.length; l++)
+			for(int l = 0; l < mapp[0].length; l++)
 				dist[k][l] = filter(k, l, dir);
 	}
 	
@@ -148,6 +148,7 @@ public class Main {
 			return 0;
 		
 		return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
+		//return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
 	}
 	
 	static void printArray2D(int x[][]) {
@@ -177,9 +178,9 @@ public class Main {
 		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
-		dist[1][1] = 0.2;
-		dist[1][2] = 0.6;
-		dist[1][3] = 0.2;
+		dist[1][1] = 1.0;
+		dist[1][2] = 0;
+		dist[1][3] = 0;
 		
 		System.out.println("\n MAP:");
 		printArray2D(mapp);
