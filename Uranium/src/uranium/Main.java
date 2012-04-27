@@ -280,7 +280,7 @@ public class Main {
 		}
 		
 		public Win() {
-			super("ciccio");
+			super("uranium - particle filters");
 			add(panel = new Pnl());
 			pack();
 			setVisible(true);
