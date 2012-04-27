@@ -16,9 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 
 public class Main {
 	
@@ -81,17 +79,7 @@ public class Main {
 			{0,0,2,0,0,0,0,2,0,2},
 			{0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0},
-	};	
-	
-	static double[][] createRandomMap(int w, int h) {
-		double map[][] = new double[h][w];
-		for(int i = 0; i < h; i++) {
-			for(int j = 0; j < w; j++) {
-				map[i][j] = Math.random();
-			}
-		}
-		return map;
-	}
+	};
 	
 	private boolean checkBound(int i, int j){
 		if(i < 0 || j < 0 || i > mapp.length || j > mapp[0].length)
@@ -109,9 +97,6 @@ public class Main {
 		return mapp[i][j]==2;
 	}
 	
-	/*
-	 * p(Xkl | Xij , dir)
-	 */	
 	private void updateDistrib(int dir){
 		for(int i = 0; i < mapp.length; i++)
 			for(int j = 0; j < mapp.length; j++)
@@ -131,6 +116,10 @@ public class Main {
 			}
 		return summ;
 	}
+	
+	/*
+	 * p(Xkl | Xij , dir)
+	 */	
 	private double p(int i,int j, int k,int l,int dir){
 		if (!checkBound(i,j) || !checkBound(k,l)) return 0;
 		int indi = k-i+2;
@@ -155,10 +144,11 @@ public class Main {
 			trans[i][1][1]=rotateMatrixRight(trans[i-1][1][1]);
 			trans[i][1][0]=rotateMatrixRight(trans[i-1][1][0]);
 		}
+		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
 		dist[1][1]=1;
-		new Win(createRandomMap(80, 60));
+		new Win();
 	}
 	
 	public double[][] rotateMatrixRight(double[][] matrix)
@@ -182,12 +172,8 @@ public class Main {
 			private static final long serialVersionUID = 1173319384063742620L;
 			private static final int cellSize = 5;
 			
-			double map[][];
-			
-			public Pnl(double map[][]) {
-				this.map = map;
-				
-				setPreferredSize(new Dimension(cellSize * map[0].length, cellSize * map.length));
+			public Pnl() {
+				setPreferredSize(new Dimension(cellSize * mapp[0].length, cellSize * mapp.length));
 				
 				setFocusable(true);
 				requestFocus();
@@ -199,27 +185,37 @@ public class Main {
 			public void paint(Graphics g) {
 				super.paint(g);
 				
-				BufferedImage bi = createImageFromMap(map);
+				BufferedImage bi = createImageFromMap();
 				Image i = Toolkit.getDefaultToolkit().createImage(bi.getSource());
 				
 				g.drawImage(i, 0, 0, null);
 			}
 			
-			private BufferedImage createImageFromMap(double map[][]) {
+			private BufferedImage createImageFromMap() {
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				GraphicsDevice gs = ge.getDefaultScreenDevice();
 				GraphicsConfiguration gc = gs.getDefaultConfiguration();
 				
 				//BufferedImage bimage = new BufferedImage(map.length, map[0].length, BufferedImage.TYPE_INT_RGB);
-				BufferedImage bimage = gc.createCompatibleImage(cellSize * map[0].length, cellSize * map.length, Transparency.OPAQUE);
+				BufferedImage bimage = gc.createCompatibleImage(cellSize * dist[0].length, cellSize * dist.length, Transparency.OPAQUE);
 				
 				Graphics2D g2d = bimage.createGraphics();
 
 				// Draw on the image
 				
-				for(int i = 0; i < map.length; i++) {
-					for(int j = 0; j < map[0].length; j++) {
-						g2d.setColor(Color.getHSBColor(0, 0, (float) map[i][j]));
+				for(int i = 0; i < dist.length; i++) {
+					for(int j = 0; j < dist[0].length; j++) {
+						g2d.setColor(Color.getHSBColor(0, 0, (float) dist[i][j]));
+						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, (j+1)*cellSize, (i+1)*cellSize));
+					}
+				}
+				
+				Color colors[] = {null, Color.red, Color.green};
+
+				for(int i = 0; i < mapp.length; i++) {
+					for(int j = 0; j < mapp[0].length; j++) {
+						if(mapp[i][j] == 0) continue;
+						g2d.setColor(colors[mapp[i][j]]);
 						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, (j+1)*cellSize, (i+1)*cellSize));
 					}
 				}
@@ -230,11 +226,9 @@ public class Main {
 			}
 		}
 		
-		double map[][];
-		
-		public Win(double map[][]) {
+		public Win() {
 			super("ciccio");
-			add(new Pnl(map));
+			add(new Pnl());
 			pack();
 			setVisible(true);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
