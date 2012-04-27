@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,6 +28,8 @@ public class Main {
 	
 	private static final int dx[] = {-1,0,1,0};
 	private static final int dy[] = {0,-1,0,1};
+	
+	private static final String dirString[] = {"Left", "Up", "Right", "Down"};
 	
 	private double trans[][][][][];
 
@@ -129,13 +132,14 @@ public class Main {
 		return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
 	}
 	
-	void printArray2D(int x[][]) {
-		for(int i = 0; i < x.length; i++) {
-			for(int j = 0; j < x[0].length; j++) {
-				System.out.print(" " + x[i][j]);
-			}
-			System.out.print("\n");
-		}
+	static void printArray2D(int x[][]) {
+		for(int i = 0; i < x.length; i++)
+			System.out.println(Arrays.toString(x[i]));
+	}
+	
+	static void printArray2D(double x[][]) {
+		for(int i = 0; i < x.length; i++)
+			System.out.println(Arrays.toString(x[i]));
 	}
 	
 	public Main() {
@@ -156,7 +160,17 @@ public class Main {
 		distOld = new double[mapp.length][mapp[0].length];
 		dist[1][1]=1;
 		
+		System.out.println("MAP:");
 		printArray2D(mapp);
+		
+		for(int dir = 0; dir < 3; dir++) {
+			for(int oil = 0; oil < 2; oil++) {
+				for(int occ = 0; occ < 2; occ++) {
+					System.out.println("TRANS[dir=" + dirString[dir] + "][oil=" + oil + "][occ=" + occ + "]:");
+					printArray2D(trans[dir][oil][occ]);
+				}
+			}
+		}
 		
 		new Win();
 	}
