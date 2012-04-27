@@ -35,9 +35,9 @@ public class Main {
 
 	private static final double matrix[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
-		{0.00, 0.10, 0.00, 0.00, 0.00},
-		{0.00, 0.80, 0.00, 0.00, 0.00},
-		{0.00, 0.10, 0.00, 0.00, 0.00},
+		{0.00, 0.05, 0.00, 0.00, 0.00},
+		{0.05, 0.80, 0.05, 0.00, 0.00},
+		{0.00, 0.05, 0.00, 0.00, 0.00},
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 	
@@ -46,6 +46,14 @@ public class Main {
 		{0.15, 0.10, 0.00, 0.00, 0.00},
 		{0.20, 0.30, 0.00, 0.00, 0.00},
 		{0.15, 0.10, 0.00, 0.00, 0.00},
+		{0.00, 0.00, 0.00, 0.00, 0.00}
+	}; 
+
+	private static final double matrixOcc[][] = {
+		{0.00, 0.00, 0.00, 0.00, 0.00},
+		{0.00, 0.00, 0.10, 0.00, 0.00},
+		{0.00, 0.00, 0.80, 0.00, 0.00},
+		{0.00, 0.00, 0.10, 0.00, 0.00},
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 	
@@ -57,13 +65,6 @@ public class Main {
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 
-	private static final double matrixOcc[][] = {
-		{0.00, 0.00, 0.00, 0.00, 0.00},
-		{0.00, 0.00, 0.10, 0.00, 0.00},
-		{0.00, 0.00, 0.80, 0.00, 0.00},
-		{0.00, 0.00, 0.10, 0.00, 0.00},
-		{0.00, 0.00, 0.00, 0.00, 0.00}
-	}; 
 
 	private double dist[][];
 	private double distOld[][];
@@ -173,7 +174,6 @@ public class Main {
 			return 0;
 		
 		return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
-		//return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
 	}
 	
 	static void printArray2D(int x[][]) {
@@ -191,8 +191,8 @@ public class Main {
 		
 		trans[L][0][0]=matrix;
 		trans[L][0][1]=matrixOil;
-		trans[L][1][1]=matrixOilOcc;
 		trans[L][1][0]=matrixOcc;
+		trans[L][1][1]=matrixOilOcc;
 		for(int dir = 1; dir < 4; dir++) {
 			for(int occ = 0; occ < 2; occ++) {
 				for(int oil = 0; oil < 2; oil++) {
@@ -344,11 +344,7 @@ public class Main {
 		
 	}
 	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		new Main();
 	}
-
 }
