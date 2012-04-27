@@ -1,5 +1,4 @@
 package uranium;
-import Main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -75,11 +73,15 @@ public class Main {
 	 * 1 occ
 	 * 2 oil
 	 */
-	private int mapp[][] = {{   },
-							{   },
-							{	}, 
-							};
-	
+	private int mapp[][] = {
+			{0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0},
+			{0,2,1,1,1,0,0,0,2,0},
+			{0,0,0,0,1,0,0,0,0,0},
+			{0,0,2,0,0,0,0,2,0,2},
+			{0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0},
+	};	
 	
 	static double[][] createRandomMap(int w, int h) {
 		double map[][] = new double[h][w];
