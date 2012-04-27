@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -131,6 +132,15 @@ public class Main {
 		return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
 	}
 	
+	void printArray2D(int x[][]) {
+		for(int i = 0; i < x.length; i++) {
+			for(int j = 0; j < x[0].length; j++) {
+				System.out.print(" " + x[i][j]);
+			}
+			System.out.print("\n");
+		}
+	}
+	
 	public Main() {
 		trans = new double[4][2][2][][];
 		
@@ -148,6 +158,9 @@ public class Main {
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
 		dist[1][1]=1;
+		
+		printArray2D(mapp);
+		
 		new Win();
 	}
 	
@@ -210,12 +223,11 @@ public class Main {
 					}
 				}
 				
-				Color colors[] = {null, Color.red, Color.green};
-
 				for(int i = 0; i < mapp.length; i++) {
 					for(int j = 0; j < mapp[0].length; j++) {
 						if(mapp[i][j] == 0) continue;
-						g2d.setColor(colors[mapp[i][j]]);
+						if(mapp[i][j] == 1) g2d.setColor(Color.red);
+						if(mapp[i][j] == 2) g2d.setColor(Color.green);
 						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, (j+1)*cellSize, (i+1)*cellSize));
 					}
 				}
