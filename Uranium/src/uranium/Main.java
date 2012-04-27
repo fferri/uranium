@@ -90,7 +90,7 @@ public class Main {
 		return true;
 	}
 	
-	private boolean isOcc(int i,int j,int dir){
+	private boolean isOcc(int i, int j, int dir){
 		if(checkBounds(i + dx[dir], j + dy[dir]))
 			return mapp[i + dx[dir]][j + dy[dir]] == 1;
 		else return true;
@@ -149,11 +149,12 @@ public class Main {
 		trans[L][0][1]=matrixOil;
 		trans[L][1][1]=matrixOilOcc;
 		trans[L][1][0]=matrixOcc;
-		for(int i=1; i < 4; i++){
-			trans[i][0][0]=rotateMatrixRight(trans[i-1][0][0]);
-			trans[i][0][1]=rotateMatrixRight(trans[i-1][0][1]);
-			trans[i][1][1]=rotateMatrixRight(trans[i-1][1][1]);
-			trans[i][1][0]=rotateMatrixRight(trans[i-1][1][0]);
+		for(int dir = 1; dir < 4; dir++) {
+			for(int occ = 0; occ < 2; occ++) {
+				for(int oil = 0; oil < 2; oil++) {
+					trans[dir][occ][oil]=rotateMatrixRight(trans[dir - 1][occ][oil]);
+				}
+			}
 		}
 		
 		dist = new double[mapp.length][mapp[0].length];
@@ -164,10 +165,10 @@ public class Main {
 		printArray2D(mapp);
 		
 		for(int dir = 0; dir < 3; dir++) {
-			for(int oil = 0; oil < 2; oil++) {
-				for(int occ = 0; occ < 2; occ++) {
-					System.out.println("TRANS[dir=" + dirString[dir] + "][oil=" + oil + "][occ=" + occ + "]:");
-					printArray2D(trans[dir][oil][occ]);
+			for(int occ = 0; occ < 2; occ++) {
+				for(int oil = 0; oil < 2; oil++) {
+					System.out.println("TRANS[dir=" + dirString[dir] + "][occ=" + occ + "][oil=" + oil + "]:");
+					printArray2D(trans[dir][occ][oil]);
 				}
 			}
 		}
