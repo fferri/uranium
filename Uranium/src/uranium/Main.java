@@ -33,8 +33,7 @@ public class Main {
 	
 	private double trans[][][][][];
 
-	private static final double matrix[][] = 
-	{
+	private static final double matrix[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
 		{0.00, 0.10, 0.00, 0.00, 0.00},
 		{0.00, 0.80, 0.00, 0.00, 0.00},
@@ -42,8 +41,7 @@ public class Main {
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
 	
-	private static final double matrixOil[][] = 
-	{
+	private static final double matrixOil[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
 		{0.15, 0.10, 0.00, 0.00, 0.00},
 		{0.20, 0.30, 0.00, 0.00, 0.00},
@@ -101,31 +99,46 @@ public class Main {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	};
 	
-	private boolean checkBounds(int i, int j){
+	private boolean checkBounds(int i, int j) {
 		if(i < 0 || j < 0 || i >= mapp.length || j >= mapp[0].length)
 			return false;
 		return true;
 	}
 	
-	private boolean isOcc(int i, int j, int dir){
+	private boolean isOcc(int i, int j, int dir) {
 		if(checkBounds(i + dy[dir], j + dx[dir]))
 			return mapp[i + dy[dir]][j + dx[dir]] == 1;
 		else
 			return true;
 	}
 	
-	private boolean isOil(int i, int j){
+	private boolean isOil(int i, int j) {
 		return mapp[i][j] == 2;
 	}
 	
-	private void updateDistrib(int dir){
-		for(int i = 0; i < mapp.length; i++)
-			for(int j = 0; j < mapp[0].length; j++)
+	private void updateDistrib(int dir) {
+		// clone dist[i][j]
+		for(int i = 0; i < mapp.length; i++) {
+			for(int j = 0; j < mapp[0].length; j++) {
 				distOld[i][j] = dist[i][j];
+			}
+		}
 		
-		for(int k = 0; k < mapp.length; k++)
-			for(int l = 0; l < mapp[0].length; l++)
+		// filter every cell
+		double norm_factor = 0;
+		for(int k = 0; k < mapp.length; k++) {
+			for(int l = 0; l < mapp[0].length; l++) {
 				dist[k][l] = filter(k, l, dir);
+				norm_factor += dist[k][l];
+			}
+		}
+		
+		// normalize
+		for(int k = 0; k < mapp.length; k++) {
+			for(int l = 0; l < mapp[0].length; l++) {
+				dist[k][l] /= norm_factor;
+			}
+		}
 	}
 	
 	private double filter(int k, int l, int dir) {
@@ -197,8 +210,7 @@ public class Main {
 		new Win();
 	}
 	
-	public double[][] rotateMatrixRight(double[][] matrix)
-	{
+	public double[][] rotateMatrixRight(double[][] matrix) {
 	    /* W and H are already swapped */
 	    int w = matrix.length;
 	    int h = matrix[0].length;
