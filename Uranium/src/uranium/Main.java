@@ -14,13 +14,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Main {
-	
+	// constants
 	private static final int L = 0;
 	private static final int U = 1;
 	private static final int R = 2;
@@ -82,20 +81,20 @@ public class Main {
 			{0,0,0,0,0,0,0,0,0,0},
 	};
 	
-	private boolean checkBound(int i, int j){
-		if(i < 0 || j < 0 || i > mapp.length || j > mapp[0].length)
+	private boolean checkBounds(int i, int j){
+		if(i < 0 || j < 0 || i >= mapp.length || j >= mapp[0].length)
 			return false;
 		return true;
 	}
 	
 	private boolean isOcc(int i,int j,int dir){
-		if (checkBound(i+dx[dir],j+dy[dir]))
-			return mapp[i+dx[dir]][j+dy[dir]]==1;
+		if(checkBounds(i + dx[dir], j + dy[dir]))
+			return mapp[i + dx[dir]][j + dy[dir]] == 1;
 		else return true;
 	}
 	
 	private boolean isOil(int i,int j){
-		return mapp[i][j]==2;
+		return mapp[i][j] == 2;
 	}
 	
 	private void updateDistrib(int dir){
@@ -104,28 +103,25 @@ public class Main {
 				distOld[i][j]= dist[i][j];
 		
 		for(int k = 0; k < mapp.length; k++)
-			for(int l = 0; l < mapp.length; l++){
-				dist[k][l] = filter(k,l,dir);
-			}
+			for(int l = 0; l < mapp.length; l++)
+				dist[k][l] = filter(k, l, dir);
 	}
 	
 	private double filter(int k, int l, int dir) {
 		double summ = 0;
-		for(int i = 0; i < mapp.length; i++) {
-			for(int j = 0; j < mapp[0].length; i++) {
-				summ += p(i,j,k,l,dir) * distOld[i][j];
-			}
-		}
+		for(int i = 0; i < mapp.length; i++)
+			for(int j = 0; j < mapp[0].length; j++)
+				summ += p(i, j, k, l, dir) * distOld[i][j];
 		return summ;
 	}
 	
 	/*
 	 * p(Xkl | Xij , dir)
 	 */	
-	private double p(int i,int j, int k,int l,int dir){
-		if (!checkBound(i,j) || !checkBound(k,l)) return 0;
-		int indi = k-i+2;
-		int indj = l-j+2;
+	private double p(int i,int j, int k,int l,int dir) {
+		if(!checkBounds(i,j) || !checkBounds(k,l)) return 0;
+		int indi = k - i + 2;
+		int indj = l - j + 2;
 		
 		if(indi < 0 || indj < 0 || indi >= 5 || indj >= 5)
 			return 0;
