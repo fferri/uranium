@@ -125,15 +125,27 @@ public class Main {
 		}
 		
 		// filter every cell
-		double norm_factor = 0;
 		for(int k = 0; k < mapp.length; k++) {
 			for(int l = 0; l < mapp[0].length; l++) {
 				dist[k][l] = filter(k, l, dir);
-				norm_factor += dist[k][l];
+			}
+		}
+		
+		// the TRICK
+		for(int i = 0; i < mapp.length; i++) {
+			for(int j = 0; j < mapp[0].length; j++) {
+				if(mapp[i][j] == 1)
+					dist[i][j] = 0;
 			}
 		}
 		
 		// normalize
+		double norm_factor = 0;
+		for(int k = 0; k < mapp.length; k++) {
+			for(int l = 0; l < mapp[0].length; l++) {
+				norm_factor += dist[k][l];
+			}
+		}
 		for(int k = 0; k < mapp.length; k++) {
 			for(int l = 0; l < mapp[0].length; l++) {
 				dist[k][l] /= norm_factor;
