@@ -105,16 +105,17 @@ public class Main {
 		
 		for(int k = 0; k < mapp.length; k++)
 			for(int l = 0; l < mapp.length; l++){
-				dist[k][l] = filter(k,l,dir) ;
+				dist[k][l] = filter(k,l,dir);
 			}
 	}
 	
-	private double filter(int k, int l,int dir) {
+	private double filter(int k, int l, int dir) {
 		double summ = 0;
-		for(int i = 0; i < mapp.length; i++)
-			for(int j = 0; j< mapp[0].length; i++){
-				summ += p(i,j,k,l,dir)*distOld[i][j];
+		for(int i = 0; i < mapp.length; i++) {
+			for(int j = 0; j < mapp[0].length; i++) {
+				summ += p(i,j,k,l,dir) * distOld[i][j];
 			}
+		}
 		return summ;
 	}
 	
@@ -180,12 +181,16 @@ public class Main {
 
 	class Win extends JFrame implements KeyListener {
 		private static final long serialVersionUID = -5125368081992354692L;
+		private Pnl panel;
 		
 		class Pnl extends JPanel {
 			private static final long serialVersionUID = 1173319384063742620L;
 			private static final int cellSize = 5;
+			private BufferedImage bufferedImage;
 			
 			public Pnl() {
+				updateImage(); // create bufferedImage for the first time
+				
 				setPreferredSize(new Dimension(cellSize * mapp[0].length, cellSize * mapp.length));
 				
 				setFocusable(true);
@@ -198,52 +203,53 @@ public class Main {
 			public void paint(Graphics g) {
 				super.paint(g);
 				
-				BufferedImage bi = createImageFromMap();
-				Image i = Toolkit.getDefaultToolkit().createImage(bi.getSource());
+				Image i = Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());
 				
 				g.drawImage(i, 0, 0, null);
 			}
 			
-			private BufferedImage createImageFromMap() {
+			public void updateImage() {
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				GraphicsDevice gs = ge.getDefaultScreenDevice();
 				GraphicsConfiguration gc = gs.getDefaultConfiguration();
 				
-				//BufferedImage bimage = new BufferedImage(map.length, map[0].length, BufferedImage.TYPE_INT_RGB);
-				BufferedImage bimage = gc.createCompatibleImage(cellSize * dist[0].length, cellSize * dist.length, Transparency.OPAQUE);
+				bufferedImage = gc.createCompatibleImage(cellSize * dist[0].length, cellSize * dist.length, Transparency.OPAQUE);
 				
-				Graphics2D g2d = bimage.createGraphics();
+				Graphics2D g2d = bufferedImage.createGraphics();
 
-				// Draw on the image
-				
+				// Draw probability distribution of state				
 				for(int i = 0; i < dist.length; i++) {
 					for(int j = 0; j < dist[0].length; j++) {
 						g2d.setColor(Color.getHSBColor(0, 0, (float) dist[i][j]));
-						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, (j+1)*cellSize, (i+1)*cellSize));
+						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, cellSize, cellSize));
 					}
 				}
 				
+				// Draw map overlay
 				for(int i = 0; i < mapp.length; i++) {
 					for(int j = 0; j < mapp[0].length; j++) {
 						if(mapp[i][j] == 0) continue;
 						if(mapp[i][j] == 1) g2d.setColor(Color.red);
 						if(mapp[i][j] == 2) g2d.setColor(Color.green);
-						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, (j+1)*cellSize, (i+1)*cellSize));
+						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, cellSize, cellSize));
 					}
 				}
 				
 				g2d.dispose();
-
-				return bimage;
 			}
 		}
 		
 		public Win() {
 			super("ciccio");
-			add(new Pnl());
+			add(panel = new Pnl());
 			pack();
 			setVisible(true);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
+		}
+		
+		private void move(int dir) {
+			updateDistrib(dir);
+			panel.updateImage();
 		}
 
 		@Override
@@ -251,16 +257,16 @@ public class Main {
 		    int keyCode = e.getKeyCode();
 		    switch(keyCode) { 
 		        case KeyEvent.VK_UP:
-		        	updateDistrib(U);
+		        	move(U);
 		            break;
 		        case KeyEvent.VK_DOWN:
-		        	updateDistrib(D);
+		        	move(D);
 		            break;
 		        case KeyEvent.VK_LEFT:
-		        	updateDistrib(L);
+		        	move(L);
 		            break;
 		        case KeyEvent.VK_RIGHT :
-		        	updateDistrib(R);
+		        	move(R);
 		            break;
 		     }
 		}
