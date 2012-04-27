@@ -75,13 +75,30 @@ public class Main {
 	 * 2 oil
 	 */
 	private int mapp[][] = {
-			{0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0},
-			{0,2,1,1,1,0,0,0,2,0},
-			{0,0,0,0,1,0,0,0,0,0},
-			{0,0,2,0,0,0,0,2,0,2},
-			{0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0},
+			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	};
 	
 	private boolean checkBounds(int i, int j){
@@ -93,17 +110,18 @@ public class Main {
 	private boolean isOcc(int i, int j, int dir){
 		if(checkBounds(i + dx[dir], j + dy[dir]))
 			return mapp[i + dx[dir]][j + dy[dir]] == 1;
-		else return true;
+		else
+			return true;
 	}
 	
-	private boolean isOil(int i,int j){
+	private boolean isOil(int i, int j){
 		return mapp[i][j] == 2;
 	}
 	
 	private void updateDistrib(int dir){
 		for(int i = 0; i < mapp.length; i++)
 			for(int j = 0; j < mapp.length; j++)
-				distOld[i][j]= dist[i][j];
+				distOld[i][j] = dist[i][j];
 		
 		for(int k = 0; k < mapp.length; k++)
 			for(int l = 0; l < mapp.length; l++)
@@ -121,7 +139,7 @@ public class Main {
 	/*
 	 * p(Xkl | Xij , dir)
 	 */	
-	private double p(int i,int j, int k,int l,int dir) {
+	private double p(int i, int j, int k, int l, int dir) {
 		if(!checkBounds(i,j) || !checkBounds(k,l)) return 0;
 		int indi = k - i + 2;
 		int indj = l - j + 2;
@@ -159,15 +177,17 @@ public class Main {
 		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
-		dist[1][1]=1;
+		dist[1][1] = 0.2;
+		dist[1][2] = 0.6;
+		dist[1][3] = 0.2;
 		
-		System.out.println("MAP:");
+		System.out.println("\n MAP:");
 		printArray2D(mapp);
 		
 		for(int dir = 0; dir < 3; dir++) {
 			for(int occ = 0; occ < 2; occ++) {
 				for(int oil = 0; oil < 2; oil++) {
-					System.out.println("TRANS[dir=" + dirString[dir] + "][occ=" + occ + "][oil=" + oil + "]:");
+					System.out.println("\n TRANS[dir=" + dirString[dir] + "][occ=" + occ + "][oil=" + oil + "]:");
 					printArray2D(trans[dir][occ][oil]);
 				}
 			}
@@ -228,10 +248,18 @@ public class Main {
 				
 				Graphics2D g2d = bufferedImage.createGraphics();
 
+				// find max value of dist:
+				double max = 0;
+				for(int i = 0; i < dist.length; i++) {
+					for(int j = 0; j < dist[0].length; j++) {
+						if(dist[i][j] > max) max = dist[i][j];
+					}
+				}
+				
 				// Draw probability distribution of state				
 				for(int i = 0; i < dist.length; i++) {
 					for(int j = 0; j < dist[0].length; j++) {
-						g2d.setColor(Color.getHSBColor(0, 0, (float) dist[i][j]));
+						g2d.setColor(Color.getHSBColor(0, 0, (float) (dist[i][j]/max)));
 						g2d.fill(new Rectangle2D.Double(j*cellSize, i*cellSize, cellSize, cellSize));
 					}
 				}
@@ -261,6 +289,7 @@ public class Main {
 		private void move(int dir) {
 			updateDistrib(dir);
 			panel.updateImage();
+			panel.repaint();
 		}
 
 		@Override
