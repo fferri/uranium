@@ -138,14 +138,17 @@ public class Main {
 	 * p(Xkl | Xij , dir)
 	 */	
 	private double p(int i, int j, int k, int l, int dir) {
-		if(!checkBounds(i,j) || !checkBounds(k,l)) return 0;
+		//if(!checkBounds(i,j) || !checkBounds(k,l)) return 0;
 		int indi = k - i + 2;
 		int indj = l - j + 2;
 		
 		if(indi < 0 || indj < 0 || indi >= 5 || indj >= 5)
 			return 0;
 		
-		return trans[dir][isOcc(i,j,dir)?1:0][isOil(i,j)?1:0][indi][indj];
+		int indOcc = isOcc(i,j,dir) ? 1 : 0;
+		int indOil = isOil(i,j) ? 1 : 0;
+		
+		return trans[dir][indOcc][indOil][indi][indj];
 	}
 	
 	public double[][] rotateMatrixRight(double[][] matrix) {
@@ -171,7 +174,7 @@ public class Main {
 		for(int dir = 1; dir < 4; dir++)
 			for(int occ = 0; occ < 2; occ++)
 				for(int oil = 0; oil < 2; oil++)
-					trans[dir][occ][oil]=rotateMatrixRight(trans[dir - 1][occ][oil]);
+					trans[dir][occ][oil] = rotateMatrixRight(trans[dir - 1][occ][oil]);
 		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
