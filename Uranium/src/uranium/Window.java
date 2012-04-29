@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-class Window extends JFrame implements KeyListener {
+abstract class Window extends JFrame implements KeyListener {
 	private static final long serialVersionUID = -5125368081992354692L;
 	private ImagePanel panel;
 	
@@ -33,29 +33,23 @@ class Window extends JFrame implements KeyListener {
 		panel.repaint();
 	}
 	
-	public void left() {}
-
-	public void right() {}
-	
-	public void up() {}
-	
-	public void down() {}
+	public abstract void move(int direction);
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.VK_UP:
-			up();
+			move(Main.U);
 			break;
 		case KeyEvent.VK_DOWN:
-			down();
+			move(Main.D);
 			break;
 		case KeyEvent.VK_LEFT:
-			left();
+			move(Main.L);
 			break;
 		case KeyEvent.VK_RIGHT:
-			right();
+			move(Main.R);
 			break;
 		default:
 			return;

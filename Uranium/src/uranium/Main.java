@@ -1,10 +1,10 @@
 package uranium;
 
 public class Main {
-	private static final int L = 0;
-	private static final int U = 1;
-	private static final int R = 2;
-	private static final int D = 3;
+	public static final int L = 0;
+	public static final int U = 1;
+	public static final int R = 2;
+	public static final int D = 3;
 	
 	private static final int dx[] = {-1, 0, 1, 0};
 	private static final int dy[] = {0, -1, 0, 1};
@@ -180,20 +180,8 @@ public class Main {
 		dist[1][3] = 0;
 		
 		new Window(dist, mapp) {			
-			@Override public void left() {
-				updateDistrib(L);
-			}
-			
-			@Override public void right() {
-				updateDistrib(R);
-			}
-			
-			@Override public void up() {
-				updateDistrib(U);
-			}
-			
-			@Override public void down() {
-				updateDistrib(D);
+			@Override public void move(int direction) {
+				updateDistrib(direction);
 			}
 		};
 	}
