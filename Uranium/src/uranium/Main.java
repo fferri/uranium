@@ -145,10 +145,7 @@ public class Main {
 		if(indi < 0 || indj < 0 || indi >= 5 || indj >= 5)
 			return 0;
 		
-		int indOcc = isOcc(i,j,dir) ? 1 : 0;
-		int indOil = isOil(i,j) ? 1 : 0;
-		
-		return trans[dir][indOcc][indOil][indi][indj];
+		return trans[dir][isOcc(i,j,dir) ? 1 : 0][isOil(i,j) ? 1 : 0][indi][indj];
 	}
 	
 	public double[][] rotateMatrixRight(double[][] matrix) {
