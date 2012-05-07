@@ -242,5 +242,12 @@ public class Main {
 		};
 		
 		private static final double simtrans[][][][][] = generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
+		
+		/* use simulator transition tables to compute the new position of the robot */
+		public void move(int direction) {
+			int isOcc = 0;
+			int isOil = 0;
+			double[][] t = simtrans[direction][isOcc][isOil];
+		}
 	}
 }
