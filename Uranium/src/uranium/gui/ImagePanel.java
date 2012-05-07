@@ -87,6 +87,11 @@ class ImagePanel extends JPanel {
 			}
 		}
 		
+		// Draw real robot position:
+		int pos[] = simulator.getPosition();
+		g2d.setColor(Color.white);
+		g2d.draw(new Rectangle2D.Double(pos[1] * cellSize, pos[0] * cellSize, cellSize, cellSize));
+		
 		g2d.dispose();
 		
 		setPreferredSize(new Dimension(cellSize * map.getNumColumns(), cellSize * map.getNumRows()));

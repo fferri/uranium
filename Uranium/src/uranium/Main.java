@@ -133,12 +133,12 @@ public class Main {
 		dist = new double[map.getNumRows()][map.getNumColumns()];
 		distOld = new double[map.getNumRows()][map.getNumColumns()];
 		dist[1][1] = 1.0;
-		dist[1][2] = 0;
-		dist[1][3] = 0;
+		simulator.setPosition(1, 1);
 		
 		new Window(dist, map, simulator) {			
 			@Override public void move(int direction) {
 				updateDistrib(direction);
+				simulator.move(direction);
 			}
 		};
 	}

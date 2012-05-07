@@ -38,7 +38,7 @@ public class Simulator {
 	private final Map map;
 	
 	// the "REAL" position
-	private int i,j;
+	private int pos_i, pos_j;
 	
 	public Simulator(Map map) {
 		if(map == null)
@@ -55,8 +55,8 @@ public class Simulator {
 	 */
 	public void setPosition(int i, int j) {
 		if(map.checkBounds(i, j) && !map.isOcc(i, j)) {
-			this.i = i;
-			this.j = j;
+			pos_i = i;
+			pos_j = j;
 		}
 	}
 	
@@ -64,7 +64,7 @@ public class Simulator {
 	 * gets the position of the robot
 	 */
 	public int[] getPosition() {
-		return new int[]{i, j};
+		return new int[]{pos_i, pos_j};
 	}
 
 	/**
@@ -72,6 +72,17 @@ public class Simulator {
 	 * @param direction
 	 */
 	public void move(int direction) {
-		double[][] t = simtrans[direction][map.isOcc(i, j, direction) ? 1 : 0][map.isOil(i, j) ? 1 : 0];
+		double[][] t = simtrans[direction][map.isOcc(pos_i, pos_j, direction) ? 1 : 0][map.isOil(pos_i, pos_j) ? 1 : 0];
+		// select random cell in t[][]
+		double rnd = Math.random();
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 5; j++) {
+				rnd -= t[i][j];
+				if(rnd < 0) {
+					// make move corresponding to i,j cell:
+					setPosition(pos_i + 2 - i, pos_j + 2 - j);
+				}
+			}
+		}
 	}
 }
