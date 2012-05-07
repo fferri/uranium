@@ -9,8 +9,6 @@ public class Main {
 	private static final int dx[] = {-1, 0, 1, 0};
 	private static final int dy[] = {0, -1, 0, 1};
 	
-	private double trans[][][][][];
-
 	private static final double matrix[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
 		{0.01, 0.03, 0.01, 0.00, 0.00},
@@ -41,8 +39,9 @@ public class Main {
 		{0.00, 0.00, 0.40, 0.00, 0.00},
 		{0.00, 0.00, 0.30, 0.00, 0.00},
 		{0.00, 0.00, 0.00, 0.00, 0.00}
-	}; 
-
+	};
+	
+	private double trans[][][][][] = generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
 
 	private double dist[][];
 	private double distOld[][];
@@ -176,8 +175,6 @@ public class Main {
 	
 	@SuppressWarnings("serial")
 	public Main() {
-		trans = generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
-		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
 		dist[1][1] = 1.0;
@@ -195,7 +192,39 @@ public class Main {
 		new Main();
 	}
 	
-	class Simulator {
+	static class Simulator {
+		private static final double sim[][] = {
+			{0.00, 0.00, 0.00, 0.00, 0.00},
+			{0.01, 0.03, 0.01, 0.00, 0.00},
+			{0.03, 0.84, 0.03, 0.00, 0.00},
+			{0.01, 0.03, 0.01, 0.00, 0.00},
+			{0.00, 0.00, 0.00, 0.00, 0.00}
+		}; 
 		
+		private static final double simOil[][] = {
+			{0.00, 0.00, 0.00, 0.00, 0.00},
+			{0.15, 0.10, 0.00, 0.00, 0.00},
+			{0.20, 0.30, 0.00, 0.00, 0.00},
+			{0.15, 0.10, 0.00, 0.00, 0.00},
+			{0.00, 0.00, 0.00, 0.00, 0.00}
+		}; 
+
+		private static final double simOcc[][] = {
+			{0.00, 0.00, 0.00, 0.00, 0.00},
+			{0.00, 0.00, 0.10, 0.00, 0.00},
+			{0.00, 0.00, 0.80, 0.00, 0.00},
+			{0.00, 0.00, 0.10, 0.00, 0.00},
+			{0.00, 0.00, 0.00, 0.00, 0.00}
+		}; 
+		
+		private static final double simOilOcc[][] = {
+			{0.00, 0.00, 0.00, 0.00, 0.00},
+			{0.00, 0.00, 0.30, 0.00, 0.00},
+			{0.00, 0.00, 0.40, 0.00, 0.00},
+			{0.00, 0.00, 0.30, 0.00, 0.00},
+			{0.00, 0.00, 0.00, 0.00, 0.00}
+		};
+		
+		private double simtrans[][][][][] = generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
 	}
 }
