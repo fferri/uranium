@@ -41,7 +41,7 @@ public class Main {
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	};
 	
-	private double trans[][][][][] = generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
+	private static final double trans[][][][][] = generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
 
 	private double dist[][];
 	private double distOld[][];
@@ -225,6 +225,6 @@ public class Main {
 			{0.00, 0.00, 0.00, 0.00, 0.00}
 		};
 		
-		private double simtrans[][][][][] = generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
+		private static final double simtrans[][][][][] = generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
 	}
 }
