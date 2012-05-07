@@ -97,9 +97,12 @@ public class Main {
 	
 	/* get sum p(x[t]|x[t-1])*p(x[t-1]|z[1:t-1]) */
 	/* used in state estimation with sensors */
-	private double filter2(int k, int l, int dir, int bumpers) {
-		// TODO:
-		return 0.0;
+	private double filter2(int k, int l, int dir, int[] bumpers) {
+		double summ = 0;
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
+				summ += p(i, j, k, l, dir) * distOld[i][j];
+		return summ * p( bumpers, k, l, dir);
 	}
 	
 	/*
@@ -123,8 +126,9 @@ public class Main {
 	 * 
 	 * p(Z[dir] | Xij, dir)
 	 */
-	private double p(int bumper, int i, int j, int dir) {
-		// TODO:
+	private double p(int[] bumper, int i, int j, int dir) {
+		
+		
 		return 0.0;
 	}
 	
