@@ -4,7 +4,7 @@ public class Simulator {
 	private static final double sim[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
 		{0.01, 0.03, 0.01, 0.00, 0.00},
-		{0.03, 0.84, 0.03, 0.00, 0.00},
+		{0.05, 0.80, 0.05, 0.00, 0.00},
 		{0.01, 0.03, 0.01, 0.00, 0.00},
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	}; 
@@ -85,9 +85,10 @@ public class Simulator {
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 5; j++) {
 				rnd -= t[i][j];
-				if(rnd < 0) {
+				if(rnd <= 0) {
 					// make move corresponding to i,j cell:
 					setPosition(pos_i + i - 2, pos_j + j - 2);
+					return;
 				}
 			}
 		}
