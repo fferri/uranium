@@ -87,7 +87,7 @@ public class Simulator {
 				rnd -= t[i][j];
 				if(rnd < 0) {
 					// make move corresponding to i,j cell:
-					setPosition(pos_i + 2 - i, pos_j + 2 - j);
+					setPosition(pos_i + i - 2, pos_j + j - 2);
 				}
 			}
 		}
