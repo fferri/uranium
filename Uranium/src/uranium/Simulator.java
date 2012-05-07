@@ -99,7 +99,18 @@ public class Simulator {
 	 * @return
 	 */
 	public int[] getBumperState() {
-		//TODO:
-		return new int[]{0,0,0,0};
+		int ret[] = new int[4];
+		for(int dir = 0; dir < 4; dir++) {
+			int occ = map.isOcc(pos_i, pos_j, dir) ? 1 : 0;
+			double rnd = Math.random();
+			for(int x = 0; x < 2; x++) {
+				rnd -= simbump[occ][x];
+				if(rnd <= 0) {
+					ret[dir] = x;
+					break;
+				}
+			}
+		}
+		return ret;
 	}
 }
