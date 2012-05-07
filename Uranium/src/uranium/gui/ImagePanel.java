@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import uranium.Main;
 import uranium.Map;
 import uranium.Simulator;
 
@@ -91,6 +92,18 @@ class ImagePanel extends JPanel {
 		int pos[] = simulator.getPosition();
 		g2d.setColor(Color.white);
 		g2d.draw(new Rectangle2D.Double(pos[1] * cellSize, pos[0] * cellSize, cellSize, cellSize));
+		
+		// Draw bumpers state:
+		g2d.setColor(Color.red);
+		int bumpers[] = simulator.getBumperState();
+		if(bumpers[Main.L] != 0)
+			g2d.drawLine(pos[1] * cellSize, pos[0] * cellSize, pos[1] * cellSize, (pos[0] + 1) * cellSize);
+		if(bumpers[Main.U] != 0)
+			g2d.drawLine(pos[1] * cellSize, pos[0] * cellSize, (pos[1] + 1) * cellSize, pos[0] * cellSize);
+		if(bumpers[Main.R] != 0)
+			g2d.drawLine((pos[1] + 1) * cellSize, pos[0] * cellSize, (pos[1] + 1) * cellSize, (pos[0] + 1) * cellSize);
+		if(bumpers[Main.D] != 0)
+			g2d.drawLine(pos[1] * cellSize, (pos[0] + 1) * cellSize, (pos[1] + 1) * cellSize, (pos[0] + 1) * cellSize);
 		
 		g2d.dispose();
 		
