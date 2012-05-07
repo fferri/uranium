@@ -170,6 +170,7 @@ public class Main {
 	 * p(Z[dir] | Xij, dir)
 	 */
 	private double p(int bumper, int i, int j, int dir) {
+		// TODO:
 		return 0.0;
 	}
 	
