@@ -6,8 +6,8 @@ public class Main {
 	public static final int R = 2;
 	public static final int D = 3;
 	
-	private static final int dx[] = {-1, 0, 1, 0};
-	private static final int dy[] = {0, -1, 0, 1};
+	public static final int dx[] = {-1, 0, 1, 0};
+	public static final int dy[] = {0, -1, 0, 1};
 	
 	private static final double matrix[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
