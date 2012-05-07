@@ -92,4 +92,13 @@ public class Simulator {
 			}
 		}
 	}
+	
+	/**
+	 * return the state of the bumper. array indices L,D,U,R defined in Main
+	 * @return
+	 */
+	public int[] getBumperState() {
+		//TODO:
+		return new int[]{0,0,0,0};
+	}
 }
