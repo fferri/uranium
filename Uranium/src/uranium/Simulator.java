@@ -35,6 +35,13 @@ public class Simulator {
 	
 	private static final double simtrans[][][][][] = Util.generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
 	
+	private static final double simbump[][] = {
+		/* when the cell is not occupied: */
+		{0.8, 0.2},
+		/* when the cell is occupied: */
+		{0.1, 0.9}
+	};
+	
 	private final Map map;
 	
 	// the "REAL" position
