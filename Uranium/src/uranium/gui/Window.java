@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import uranium.Main;
 import uranium.Map;
+import uranium.Simulator;
 
 public abstract class Window extends JFrame implements KeyListener {
 	private static final long serialVersionUID = -5125368081992354692L;
@@ -14,8 +15,9 @@ public abstract class Window extends JFrame implements KeyListener {
 	
 	private double dist[][];
 	private Map map;
+	private Simulator simulator;
 	
-	public Window(double dist[][], Map map) {
+	public Window(double dist[][], Map map, Simulator simulator) {
 		super("uranium - particle filters");
 		
 		panel = new ImagePanel();
@@ -23,6 +25,7 @@ public abstract class Window extends JFrame implements KeyListener {
 		
 		this.dist = dist;
 		this.map = map;
+		this.simulator = simulator;
 		updateImageAndRepaint();
 		
 		add(panel);
@@ -32,7 +35,7 @@ public abstract class Window extends JFrame implements KeyListener {
 	}
 	
 	public void updateImageAndRepaint() {
-		panel.updateImage(dist, map);
+		panel.updateImage(dist, map, simulator);
 		panel.repaint();
 	}
 	

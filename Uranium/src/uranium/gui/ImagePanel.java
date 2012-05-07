@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import uranium.Map;
+import uranium.Simulator;
 
 class ImagePanel extends JPanel {
 	private static final long serialVersionUID = 1173319384063742620L;
@@ -47,7 +48,7 @@ class ImagePanel extends JPanel {
 		return Color.getHSBColor(0.7f - fv * 0.2f, 1.0f, b);
 	}
 	
-	public void updateImage(double dist[][], Map map) {
+	public void updateImage(double dist[][], Map map, Simulator simulator) {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gs = ge.getDefaultScreenDevice();
 		GraphicsConfiguration gc = gs.getDefaultConfiguration();

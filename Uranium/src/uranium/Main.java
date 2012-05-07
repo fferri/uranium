@@ -46,6 +46,7 @@ public class Main {
 	private double distOld[][];
 	
 	private Map map = new Map();
+	private Simulator simulator = new Simulator(map);
 	
 	private void normalize() {
 		double norm_factor = 0;
@@ -135,7 +136,7 @@ public class Main {
 		dist[1][2] = 0;
 		dist[1][3] = 0;
 		
-		new Window(dist, map) {			
+		new Window(dist, map, simulator) {			
 			@Override public void move(int direction) {
 				updateDistrib(direction);
 			}

@@ -59,6 +59,13 @@ public class Simulator {
 			this.j = j;
 		}
 	}
+	
+	/**
+	 * gets the position of the robot
+	 */
+	public int[] getPosition() {
+		return new int[]{i, j};
+	}
 
 	/**
 	 * use simulator transition tables to compute the new position of the robot
