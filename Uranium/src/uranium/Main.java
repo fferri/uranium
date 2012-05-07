@@ -81,8 +81,24 @@ public class Main {
 	}
 	
 	/* update whole distribution of p(x|z) */
-	private void updateDistrib2(int dir, int bumpers) {
-		// TODO:
+	private void updateDistrib2(int dir, int[] bumpers) {
+		// clone dist[i][j]
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
+				distOld[i][j] = dist[i][j];
+		
+		// filter every cell
+		for(int k = 0; k < map.getNumRows(); k++)
+			for(int l = 0; l < map.getNumColumns(); l++)
+				dist[k][l] = filter2(k, l, dir, bumpers);
+		
+		// the TRICK
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
+				if(map.isOcc(i, j))
+					dist[i][j] = 0;
+		
+		normalize();
 	}
 	
 	/* get sum p(x[t]|x[t-1]) */
@@ -151,7 +167,8 @@ public class Main {
 		
 		new Window(dist, map, simulator) {			
 			@Override public void move(int direction) {
-				updateDistrib(direction);
+				//updateDistrib(direction);
+				updateDistrib2(direction,simulator.getBumperState());
 				simulator.move(direction);
 			}
 		};
