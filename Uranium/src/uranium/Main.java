@@ -135,7 +135,9 @@ public class Main {
 	}
 	
 	/*
-	 * p(Xkl | Xij , dir)
+	 * probabilistic transition function:
+	 * 
+	 * p(Xkl | Xij , dir) == p(X[t] | X[t-1], u[t])
 	 */	
 	private double p(int i, int j, int k, int l, int dir) {
 		//if(!checkBounds(i,j) || !checkBounds(k,l)) return 0;
@@ -146,6 +148,15 @@ public class Main {
 			return 0;
 		
 		return trans[dir][isOcc(i,j,dir) ? 1 : 0][isOil(i,j) ? 1 : 0][indi][indj];
+	}
+	
+	/*
+	 * observation model:
+	 * 
+	 * p(Z[dir] | Xij, dir)
+	 */
+	private double p(int bumper, int i, int j, int dir) {
+		return 0.0;
 	}
 	
 	public double[][] rotateMatrixRight(double[][] matrix) {
