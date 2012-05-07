@@ -159,13 +159,13 @@ public class Main {
 		return 0.0;
 	}
 	
-	public static double[][][][][] generateRotatedTransitionMatrices(double matrix[][], double matrixOil[][], double matrixOcc[][], double matrixOilOcc[][]) {
+	public static double[][][][][] generateRotatedTransitionMatrices(double m[][], double mOil[][], double mOcc[][], double mOilOcc[][]) {
 		double[][][][][] ret = new double[4][2][2][][];
 		
-		ret[L][0][0]=matrix;
-		ret[L][0][1]=matrixOil;
-		ret[L][1][0]=matrixOcc;
-		ret[L][1][1]=matrixOilOcc;
+		ret[L][0][0]=m;
+		ret[L][0][1]=mOil;
+		ret[L][1][0]=mOcc;
+		ret[L][1][1]=mOilOcc;
 		for(int dir = 1; dir < 4; dir++)
 			for(int occ = 0; occ < 2; occ++)
 				for(int oil = 0; oil < 2; oil++)
