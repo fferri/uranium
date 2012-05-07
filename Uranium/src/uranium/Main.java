@@ -38,7 +38,7 @@ public class Main {
 		{0.00, 0.00, 0.00, 0.00, 0.00}
 	};
 	
-	private static final double trans[][][][][] = generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
+	private static final double trans[][][][][] = Util.generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
 
 	private double dist[][];
 	private double distOld[][];
@@ -125,21 +125,6 @@ public class Main {
 		return 0.0;
 	}
 	
-	public static double[][][][][] generateRotatedTransitionMatrices(double m[][], double mOil[][], double mOcc[][], double mOilOcc[][]) {
-		double[][][][][] ret = new double[4][2][2][][];
-		
-		ret[L][0][0]=m;
-		ret[L][0][1]=mOil;
-		ret[L][1][0]=mOcc;
-		ret[L][1][1]=mOilOcc;
-		for(int dir = 1; dir < 4; dir++)
-			for(int occ = 0; occ < 2; occ++)
-				for(int oil = 0; oil < 2; oil++)
-					ret[dir][occ][oil] = Util.rotateMatrixRight(ret[dir - 1][occ][oil]);
-		
-		return ret;
-	}
-	
 	@SuppressWarnings("serial")
 	public Main() {
 		dist = new double[map.getNumRows()][map.getNumColumns()];
@@ -157,48 +142,5 @@ public class Main {
 	
 	public static void main(String[] args) {
 		new Main();
-	}
-	
-	static class Simulator {
-		private static final double sim[][] = {
-			{0.00, 0.00, 0.00, 0.00, 0.00},
-			{0.01, 0.03, 0.01, 0.00, 0.00},
-			{0.03, 0.84, 0.03, 0.00, 0.00},
-			{0.01, 0.03, 0.01, 0.00, 0.00},
-			{0.00, 0.00, 0.00, 0.00, 0.00}
-		}; 
-		
-		private static final double simOil[][] = {
-			{0.00, 0.00, 0.00, 0.00, 0.00},
-			{0.15, 0.10, 0.00, 0.00, 0.00},
-			{0.20, 0.30, 0.00, 0.00, 0.00},
-			{0.15, 0.10, 0.00, 0.00, 0.00},
-			{0.00, 0.00, 0.00, 0.00, 0.00}
-		}; 
-
-		private static final double simOcc[][] = {
-			{0.00, 0.00, 0.00, 0.00, 0.00},
-			{0.00, 0.00, 0.10, 0.00, 0.00},
-			{0.00, 0.00, 0.80, 0.00, 0.00},
-			{0.00, 0.00, 0.10, 0.00, 0.00},
-			{0.00, 0.00, 0.00, 0.00, 0.00}
-		}; 
-		
-		private static final double simOilOcc[][] = {
-			{0.00, 0.00, 0.00, 0.00, 0.00},
-			{0.00, 0.00, 0.30, 0.00, 0.00},
-			{0.00, 0.00, 0.40, 0.00, 0.00},
-			{0.00, 0.00, 0.30, 0.00, 0.00},
-			{0.00, 0.00, 0.00, 0.00, 0.00}
-		};
-		
-		private static final double simtrans[][][][][] = generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
-		
-		/* use simulator transition tables to compute the new position of the robot */
-		public void move(int direction) {
-			int isOcc = 0;
-			int isOil = 0;
-			double[][] t = simtrans[direction][isOcc][isOil];
-		}
 	}
 }
