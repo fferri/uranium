@@ -35,10 +35,36 @@ public class Simulator {
 	
 	private static final double simtrans[][][][][] = Util.generateRotatedTransitionMatrices(sim, simOil, simOcc, simOilOcc);
 	
-	/* use simulator transition tables to compute the new position of the robot */
+	private final Map map;
+	
+	// the "REAL" position
+	private int i,j;
+	
+	public Simulator(Map map) {
+		if(map == null)
+			throw new RuntimeException("simulator needs a valid map");
+		this.map = map;
+	}
+	
+	/**
+	 * sets the position of robot to the specified value
+	 * (only if it is a valid position and it is free)
+	 * 
+	 * @param i the row
+	 * @param j the column
+	 */
+	public void setPosition(int i, int j) {
+		if(map.checkBounds(i, j) && !map.isOcc(i, j)) {
+			this.i = i;
+			this.j = j;
+		}
+	}
+
+	/**
+	 * use simulator transition tables to compute the new position of the robot
+	 * @param direction
+	 */
 	public void move(int direction) {
-		int isOcc = 0;
-		int isOil = 0;
-		double[][] t = simtrans[direction][isOcc][isOil];
+		double[][] t = simtrans[direction][map.isOcc(i, j, direction) ? 1 : 0][map.isOil(i, j) ? 1 : 0];
 	}
 }
