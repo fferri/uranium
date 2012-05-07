@@ -1,11 +1,14 @@
-package uranium;
+package uranium.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-abstract class Window extends JFrame implements KeyListener {
+import uranium.Main;
+import uranium.Map;
+
+public abstract class Window extends JFrame implements KeyListener {
 	private static final long serialVersionUID = -5125368081992354692L;
 	private ImagePanel panel;
 	

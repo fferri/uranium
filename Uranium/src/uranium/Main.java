@@ -1,5 +1,7 @@
 package uranium;
 
+import uranium.gui.Window;
+
 public class Main {
 	public static final int L = 0;
 	public static final int U = 1;

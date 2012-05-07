@@ -1,4 +1,4 @@
-package uranium;
+package uranium.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +14,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+
+import uranium.Map;
 
 class ImagePanel extends JPanel {
 	private static final long serialVersionUID = 1173319384063742620L;
