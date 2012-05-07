@@ -105,6 +105,7 @@ public class Main {
 				dist[k][l] /= norm_factor;
 	}
 	
+	/* update whole distribution pf p(x) for "blind" estimation */
 	private void updateDistrib(int dir) {
 		// clone dist[i][j]
 		for(int i = 0; i < mapp.length; i++)
@@ -125,12 +126,26 @@ public class Main {
 		normalize();
 	}
 	
+	/* update whole distribution of p(x|z) */
+	private void updateDistrib2(int dir, int bumpers) {
+		// TODO:
+	}
+	
+	/* get sum p(x[t]|x[t-1]) */
+	/* used in "blind" state estimation */
 	private double filter(int k, int l, int dir) {
 		double summ = 0;
 		for(int i = 0; i < mapp.length; i++)
 			for(int j = 0; j < mapp[0].length; j++)
 				summ += p(i, j, k, l, dir) * distOld[i][j];
 		return summ;
+	}
+	
+	/* get sum p(x[t]|x[t-1])*p(x[t-1]|z[1:t-1]) */
+	/* used in state estimation with sensors */
+	private double filter2(int k, int l, int dir, int bumpers) {
+		// TODO:
+		return 0.0;
 	}
 	
 	/*
