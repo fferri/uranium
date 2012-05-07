@@ -45,7 +45,7 @@ class ImagePanel extends JPanel {
 		return Color.getHSBColor(0.7f - fv * 0.2f, 1.0f, b);
 	}
 	
-	public void updateImage(double dist[][], int mapp[][]) {
+	public void updateImage(double dist[][], Map map) {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gs = ge.getDefaultScreenDevice();
 		GraphicsConfiguration gc = gs.getDefaultConfiguration();
@@ -71,18 +71,22 @@ class ImagePanel extends JPanel {
 		}
 		
 		// Draw map overlay
-		for(int i = 0; i < mapp.length; i++) {
-			for(int j = 0; j < mapp[0].length; j++) {
-				if(mapp[i][j] == 0) continue;
-				if(mapp[i][j] == 1) g2d.setColor(Color.gray);
-				if(mapp[i][j] == 2) g2d.setColor(Color.yellow);
+		for(int i = 0; i < map.getNumRows(); i++) {
+			for(int j = 0; j < map.getNumColumns(); j++) {
+				if(map.isOcc(i, j))
+					g2d.setColor(Color.gray);
+				else if(map.isOil(i, j))
+					g2d.setColor(Color.yellow);
+				else
+					continue;
+				
 				g2d.fill(new Rectangle2D.Double(j * cellSize, i * cellSize, cellSize, cellSize));
 			}
 		}
 		
 		g2d.dispose();
 		
-		setPreferredSize(new Dimension(cellSize * mapp[0].length, cellSize * mapp.length));
+		setPreferredSize(new Dimension(cellSize * map.getNumColumns(), cellSize * map.getNumRows()));
 	}
 }
 

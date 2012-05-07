@@ -10,16 +10,16 @@ abstract class Window extends JFrame implements KeyListener {
 	private ImagePanel panel;
 	
 	private double dist[][];
-	private int mapp[][];
+	private Map map;
 	
-	public Window(double dist[][], int mapp[][]) {
+	public Window(double dist[][], Map map) {
 		super("uranium - particle filters");
 		
 		panel = new ImagePanel();
 		panel.addKeyListener(this);
 		
 		this.dist = dist;
-		this.mapp = mapp;
+		this.map = map;
 		updateImageAndRepaint();
 		
 		add(panel);
@@ -29,7 +29,7 @@ abstract class Window extends JFrame implements KeyListener {
 	}
 	
 	public void updateImageAndRepaint() {
-		panel.updateImage(dist, mapp);
+		panel.updateImage(dist, map);
 		panel.repaint();
 	}
 	

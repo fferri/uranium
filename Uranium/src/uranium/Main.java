@@ -6,9 +6,6 @@ public class Main {
 	public static final int R = 2;
 	public static final int D = 3;
 	
-	public static final int dx[] = {-1, 0, 1, 0};
-	public static final int dy[] = {0, -1, 0, 1};
-	
 	private static final double matrix[][] = {
 		{0.00, 0.00, 0.00, 0.00, 0.00},
 		{0.01, 0.03, 0.01, 0.00, 0.00},
@@ -46,81 +43,35 @@ public class Main {
 	private double dist[][];
 	private double distOld[][];
 	
-	/* 0 free
-	 * 1 occ
-	 * 2 oil
-	 */
-	private int mapp[][] = {
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1},
-			{1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,2,0,0,0,2,1,1,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	};
-	
-	private boolean checkBounds(int i, int j) {
-		if(i < 0 || j < 0 || i >= mapp.length || j >= mapp[0].length)
-			return false;
-		return true;
-	}
-	
-	private boolean isOcc(int i, int j, int dir) {
-		if(checkBounds(i + dy[dir], j + dx[dir]))
-			return mapp[i + dy[dir]][j + dx[dir]] == 1;
-		else
-			return true;
-	}
-	
-	private boolean isOil(int i, int j) {
-		return mapp[i][j] == 2;
-	}
+	private Map map = new Map();
 	
 	private void normalize() {
 		double norm_factor = 0;
-		for(int k = 0; k < mapp.length; k++)
-			for(int l = 0; l < mapp[0].length; l++)
+		for(int k = 0; k < map.getNumRows(); k++)
+			for(int l = 0; l < map.getNumColumns(); l++)
 				norm_factor += dist[k][l];
 
-		for(int k = 0; k < mapp.length; k++)
-			for(int l = 0; l < mapp[0].length; l++)
+		for(int k = 0; k < map.getNumRows(); k++)
+			for(int l = 0; l < map.getNumColumns(); l++)
 				dist[k][l] /= norm_factor;
 	}
 	
 	/* update whole distribution pf p(x) for "blind" estimation */
 	private void updateDistrib(int dir) {
 		// clone dist[i][j]
-		for(int i = 0; i < mapp.length; i++)
-			for(int j = 0; j < mapp[0].length; j++)
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
 				distOld[i][j] = dist[i][j];
 		
 		// filter every cell
-		for(int k = 0; k < mapp.length; k++)
-			for(int l = 0; l < mapp[0].length; l++)
+		for(int k = 0; k < map.getNumRows(); k++)
+			for(int l = 0; l < map.getNumColumns(); l++)
 				dist[k][l] = filter(k, l, dir);
 		
 		// the TRICK
-		for(int i = 0; i < mapp.length; i++)
-			for(int j = 0; j < mapp[0].length; j++)
-				if(mapp[i][j] == 1)
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
+				if(map.isOcc(i, j))
 					dist[i][j] = 0;
 		
 		normalize();
@@ -135,8 +86,8 @@ public class Main {
 	/* used in "blind" state estimation */
 	private double filter(int k, int l, int dir) {
 		double summ = 0;
-		for(int i = 0; i < mapp.length; i++)
-			for(int j = 0; j < mapp[0].length; j++)
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
 				summ += p(i, j, k, l, dir) * distOld[i][j];
 		return summ;
 	}
@@ -161,7 +112,7 @@ public class Main {
 		if(indi < 0 || indj < 0 || indi >= 5 || indj >= 5)
 			return 0;
 		
-		return trans[dir][isOcc(i,j,dir) ? 1 : 0][isOil(i,j) ? 1 : 0][indi][indj];
+		return trans[dir][map.isOcc(i,j,dir) ? 1 : 0][map.isOil(i,j) ? 1 : 0][indi][indj];
 	}
 	
 	/*
@@ -191,13 +142,13 @@ public class Main {
 	
 	@SuppressWarnings("serial")
 	public Main() {
-		dist = new double[mapp.length][mapp[0].length];
-		distOld = new double[mapp.length][mapp[0].length];
+		dist = new double[map.getNumRows()][map.getNumColumns()];
+		distOld = new double[map.getNumRows()][map.getNumColumns()];
 		dist[1][1] = 1.0;
 		dist[1][2] = 0;
 		dist[1][3] = 0;
 		
-		new Window(dist, mapp) {			
+		new Window(dist, map) {			
 			@Override public void move(int direction) {
 				updateDistrib(direction);
 			}
