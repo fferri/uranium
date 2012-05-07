@@ -102,7 +102,7 @@ public class Main {
 		for(int i = 0; i < map.getNumRows(); i++)
 			for(int j = 0; j < map.getNumColumns(); j++)
 				summ += p(i, j, k, l, dir) * distOld[i][j];
-		return summ * p( bumpers, k, l, dir);
+		return summ * p( bumpers, k, l);
 	}
 	
 	/*
@@ -120,16 +120,26 @@ public class Main {
 		
 		return trans[dir][map.isOcc(i,j,dir) ? 1 : 0][map.isOil(i,j) ? 1 : 0][indi][indj];
 	}
+	private static final double bump[][] = {
+		/* when the cell is not occupied: */
+		{0.8, 0.2},
+		/* when the cell is occupied: */
+		{0.1, 0.9}
+	};
+	
+	
 	
 	/*
 	 * observation model:
 	 * 
 	 * p(Z[dir] | Xij, dir)
 	 */
-	private double p(int[] bumper, int i, int j, int dir) {
-		
-		
-		return 0.0;
+	private double p(int[] bumper, int i, int j) {
+		double result = 1;
+		for(int n = 0;i < 4; i++){
+			result *= bump[map.isOcc(i,j,n) ? 1 : 0][bumper[n]];
+		}
+		return result;
 	}
 	
 	@SuppressWarnings("serial")
