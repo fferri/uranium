@@ -159,18 +159,6 @@ public class Main {
 		return 0.0;
 	}
 	
-	public double[][] rotateMatrixRight(double[][] matrix) {
-	    int w = matrix.length;
-	    int h = matrix[0].length;
-	    double[][] ret = new double[h][w];
-	    for (int i = 0; i < h; ++i) {
-	        for (int j = 0; j < w; ++j) {
-	            ret[i][j] = matrix[w - j - 1][i];
-	        }
-	    }
-	    return ret;
-	}
-	
 	@SuppressWarnings("serial")
 	public Main() {
 		trans = new double[4][2][2][][];
@@ -182,7 +170,7 @@ public class Main {
 		for(int dir = 1; dir < 4; dir++)
 			for(int occ = 0; occ < 2; occ++)
 				for(int oil = 0; oil < 2; oil++)
-					trans[dir][occ][oil] = rotateMatrixRight(trans[dir - 1][occ][oil]);
+					trans[dir][occ][oil] = Util.rotateMatrixRight(trans[dir - 1][occ][oil]);
 		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
