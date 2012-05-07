@@ -159,18 +159,24 @@ public class Main {
 		return 0.0;
 	}
 	
-	@SuppressWarnings("serial")
-	public Main() {
-		trans = new double[4][2][2][][];
+	public static double[][][][][] generateRotatedTransitionMatrices(double matrix[][], double matrixOil[][], double matrixOcc[][], double matrixOilOcc[][]) {
+		double[][][][][] ret = new double[4][2][2][][];
 		
-		trans[L][0][0]=matrix;
-		trans[L][0][1]=matrixOil;
-		trans[L][1][0]=matrixOcc;
-		trans[L][1][1]=matrixOilOcc;
+		ret[L][0][0]=matrix;
+		ret[L][0][1]=matrixOil;
+		ret[L][1][0]=matrixOcc;
+		ret[L][1][1]=matrixOilOcc;
 		for(int dir = 1; dir < 4; dir++)
 			for(int occ = 0; occ < 2; occ++)
 				for(int oil = 0; oil < 2; oil++)
-					trans[dir][occ][oil] = Util.rotateMatrixRight(trans[dir - 1][occ][oil]);
+					ret[dir][occ][oil] = Util.rotateMatrixRight(ret[dir - 1][occ][oil]);
+		
+		return ret;
+	}
+	
+	@SuppressWarnings("serial")
+	public Main() {
+		trans = generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
 		
 		dist = new double[mapp.length][mapp[0].length];
 		distOld = new double[mapp.length][mapp[0].length];
@@ -187,5 +193,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		new Main();
+	}
+	
+	class Simulator {
+		
 	}
 }
