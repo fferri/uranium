@@ -42,6 +42,13 @@ public class Main {
 	
 	private static final double trans[][][][][] = Util.generateRotatedTransitionMatrices(matrix, matrixOil, matrixOcc, matrixOilOcc);
 
+	private static final double bump[][] = {
+		/* when the cell is not occupied: */
+		{0.8, 0.2},
+		/* when the cell is occupied: */
+		{0.1, 0.9}
+	};
+	
 	private double dist[][];
 	private double distOld[][];
 	
@@ -49,6 +56,12 @@ public class Main {
 	private Simulator simulator = new Simulator(map);
 	
 	private void normalize() {
+		// the TRICK
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
+				if(map.isOcc(i, j))
+					dist[i][j] = 0;
+		
 		double norm_factor = 0;
 		for(int k = 0; k < map.getNumRows(); k++)
 			for(int l = 0; l < map.getNumColumns(); l++)
@@ -59,44 +72,33 @@ public class Main {
 				dist[k][l] /= norm_factor;
 	}
 	
-	/* update whole distribution pf p(x) for "blind" estimation */
-	private void updateDistrib(int dir) {
+	private void cloneDist() {
 		// clone dist[i][j]
 		for(int i = 0; i < map.getNumRows(); i++)
 			for(int j = 0; j < map.getNumColumns(); j++)
 				distOld[i][j] = dist[i][j];
+	}
+	
+	/* update whole distribution pf p(x) for "blind" estimation */
+	private void updateDistrib(int dir) {
+		cloneDist();
 		
 		// filter every cell
 		for(int k = 0; k < map.getNumRows(); k++)
 			for(int l = 0; l < map.getNumColumns(); l++)
 				dist[k][l] = filter(k, l, dir);
 		
-		// the TRICK
-		for(int i = 0; i < map.getNumRows(); i++)
-			for(int j = 0; j < map.getNumColumns(); j++)
-				if(map.isOcc(i, j))
-					dist[i][j] = 0;
-		
 		normalize();
 	}
 	
 	/* update whole distribution of p(x|z) */
 	private void updateDistrib2(int dir, int[] bumpers) {
-		// clone dist[i][j]
-		for(int i = 0; i < map.getNumRows(); i++)
-			for(int j = 0; j < map.getNumColumns(); j++)
-				distOld[i][j] = dist[i][j];
+		cloneDist();
 		
 		// filter every cell
 		for(int k = 0; k < map.getNumRows(); k++)
 			for(int l = 0; l < map.getNumColumns(); l++)
 				dist[k][l] = filter2(k, l, dir, bumpers);
-		
-		// the TRICK
-		for(int i = 0; i < map.getNumRows(); i++)
-			for(int j = 0; j < map.getNumColumns(); j++)
-				if(map.isOcc(i, j))
-					dist[i][j] = 0;
 		
 		normalize();
 	}
@@ -136,14 +138,6 @@ public class Main {
 		
 		return trans[dir][map.isOcc(i,j,dir) ? 1 : 0][map.isOil(i,j) ? 1 : 0][indi][indj];
 	}
-	private static final double bump[][] = {
-		/* when the cell is not occupied: */
-		{0.8, 0.2},
-		/* when the cell is occupied: */
-		{0.1, 0.9}
-	};
-	
-	
 	
 	/*
 	 * observation model:
@@ -152,8 +146,8 @@ public class Main {
 	 */
 	private double p(int[] bumper, int i, int j) {
 		double result = 1;
-		for(int n = 0;i < 4; i++){
-			result *= bump[map.isOcc(i,j,n) ? 1 : 0][bumper[n]];
+		for(int n = 0; n < 4; n++){
+			result *= bump[map.isOcc(i, j, n) ? 1 : 0][bumper[n]];
 		}
 		return result;
 	}
@@ -162,7 +156,10 @@ public class Main {
 	public Main() {
 		dist = new double[map.getNumRows()][map.getNumColumns()];
 		distOld = new double[map.getNumRows()][map.getNumColumns()];
-		dist[1][1] = 1.0;
+		for(int i = 0; i < map.getNumRows(); i++)
+			for(int j = 0; j < map.getNumColumns(); j++)
+				dist[i][j] = Math.random();
+		normalize();
 		simulator.setPosition(1, 1);
 		
 		new Window(dist, map, simulator) {			
@@ -170,6 +167,10 @@ public class Main {
 				//updateDistrib(direction);
 				updateDistrib2(direction,simulator.getBumperState());
 				simulator.move(direction);
+			}
+			
+			@Override public void cellClicked(int i, int j) {
+				simulator.setPosition(i, j);
 			}
 		};
 	}

@@ -2,6 +2,8 @@ package uranium.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
@@ -9,7 +11,7 @@ import uranium.Main;
 import uranium.Map;
 import uranium.Simulator;
 
-public abstract class Window extends JFrame implements KeyListener {
+public abstract class Window extends JFrame implements KeyListener, MouseListener {
 	private static final long serialVersionUID = -5125368081992354692L;
 	private ImagePanel panel;
 	
@@ -22,6 +24,7 @@ public abstract class Window extends JFrame implements KeyListener {
 		
 		panel = new ImagePanel();
 		panel.addKeyListener(this);
+		panel.addMouseListener(this);
 		
 		this.dist = dist;
 		this.map = map;
@@ -40,6 +43,8 @@ public abstract class Window extends JFrame implements KeyListener {
 	}
 	
 	public abstract void move(int direction);
+	
+	public abstract void cellClicked(int i, int j);
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -69,4 +74,20 @@ public abstract class Window extends JFrame implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {}
 	
+	@Override public void mouseClicked(MouseEvent arg0) {
+		int cell_i = arg0.getY() / ImagePanel.cellSize;
+		int cell_j = arg0.getX() / ImagePanel.cellSize;
+		if(cell_i >= 0 && cell_j >= 0 && cell_i < map.getNumRows() && cell_j < map.getNumColumns()) {
+			cellClicked(cell_i, cell_j);
+			updateImageAndRepaint();
+		}
+	}
+
+	@Override public void mouseEntered(MouseEvent arg0) {}
+
+	@Override public void mouseExited(MouseEvent arg0) {}
+
+	@Override public void mousePressed(MouseEvent arg0) {}
+
+	@Override public void mouseReleased(MouseEvent arg0) {}
 }

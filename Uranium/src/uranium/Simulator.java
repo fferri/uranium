@@ -37,9 +37,9 @@ public class Simulator {
 	
 	private static final double simbump[][] = {
 		/* when the cell is not occupied: */
-		{0.98, 0.02},
+		{0.92, 0.08},
 		/* when the cell is occupied: */
-		{0.05, 0.95}
+		{0.1, 0.9}
 	};
 	
 	private final Map map;

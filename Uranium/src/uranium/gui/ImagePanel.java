@@ -21,7 +21,7 @@ import uranium.Simulator;
 
 class ImagePanel extends JPanel {
 	private static final long serialVersionUID = 1173319384063742620L;
-	private static final int cellSize = 5;
+	public static final int cellSize = 5;
 	private BufferedImage bufferedImage;
 	
 	public ImagePanel() {
