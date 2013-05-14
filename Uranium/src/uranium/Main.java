@@ -79,7 +79,7 @@ public class Main {
 				distOld[i][j] = dist[i][j];
 	}
 	
-	/* update whole distribution pf p(x) for "blind" estimation */
+	/* update whole distribution of p(x) for "blind" estimation */
 	private void updateDistrib(int dir) {
 		cloneDist();
 		
