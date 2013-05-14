@@ -79,7 +79,9 @@ public class Main {
 				distOld[i][j] = dist[i][j];
 	}
 	
-	/* update whole distribution of p(x) for "blind" estimation */
+	/**
+	 *  update whole distribution of p(x) for "blind" estimation 
+	 */
 	private void updateDistrib(int dir) {
 		cloneDist();
 		
@@ -91,7 +93,9 @@ public class Main {
 		normalize();
 	}
 	
-	/* update whole distribution of p(x|z) */
+	/** 
+	 * update whole distribution of p(x|z) 
+	 */
 	private void updateDistrib2(int dir, int[] bumpers) {
 		cloneDist();
 		
@@ -103,8 +107,10 @@ public class Main {
 		normalize();
 	}
 	
-	/* get sum p(x[t]|x[t-1]) */
-	/* used in "blind" state estimation */
+	/** 
+	 * get sum p(x[t]|x[t-1]) 
+	 * used in "blind" state estimation
+	 */
 	private double filter(int k, int l, int dir) {
 		double summ = 0;
 		for(int i = 0; i < map.getNumRows(); i++)
@@ -113,8 +119,10 @@ public class Main {
 		return summ;
 	}
 	
-	/* get sum p(x[t]|x[t-1])*p(x[t-1]|z[1:t-1]) */
-	/* used in state estimation with sensors */
+	/** 
+	 * get sum p(x[t]|x[t-1])*p(x[t-1]|z[1:t-1])
+	 * used in state estimation with sensors 
+	 */
 	private double filter2(int k, int l, int dir, int[] bumpers) {
 		double summ = 0;
 		for(int i = 0; i < map.getNumRows(); i++)
@@ -123,11 +131,10 @@ public class Main {
 		return summ * p( bumpers, k, l);
 	}
 	
-	/*
+	/**
 	 * probabilistic transition function:
-	 * 
 	 * p(Xkl | Xij , dir) == p(X[t] | X[t-1], u[t])
-	 */	
+	 **/	
 	private double p(int i, int j, int k, int l, int dir) {
 		//if(!checkBounds(i,j) || !checkBounds(k,l)) return 0;
 		int indi = k - i + 2;
@@ -139,7 +146,7 @@ public class Main {
 		return trans[dir][map.isOcc(i,j,dir) ? 1 : 0][map.isOil(i,j) ? 1 : 0][indi][indj];
 	}
 	
-	/*
+	/**
 	 * observation model:
 	 * 
 	 * p(Z[dir] | Xij, dir)
